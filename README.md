@@ -9,3 +9,7 @@ Basket calcuklator app
 25% discount for 5 different books
 
 Handle any combination in the basket and give as big discount as possible
+
+### images
+
+player around with pixlr.com to create some ai images
