@@ -5,9 +5,15 @@ interface ProductProps {
   name: string;
   sku: string;
   price: number;
+  addToBasket: (sku: string, quantity: number) => void;
 }
 
-export default function Product({ name, sku, price }: ProductProps) {
+export default function Product({
+  name,
+  sku,
+  price,
+  addToBasket,
+}: ProductProps) {
   const [quantity, setQuantity] = useState(1);
   return (
     <div data-id={sku} className="product-item">
@@ -20,7 +26,7 @@ export default function Product({ name, sku, price }: ProductProps) {
           value={quantity}
           onChange={(evt) => setQuantity(Number(evt.target.value))}
         />
-        <button>Add to cart</button>
+        <button onClick={() => addToBasket(sku, quantity)}>Add to cart</button>
       </div>
     </div>
   );

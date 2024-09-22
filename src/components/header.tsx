@@ -1,15 +1,28 @@
+import { Link } from "react-router-dom";
+import { type Basket } from "../routes/layout";
 import "./header.css";
 
-export function Header() {
+interface HeaderProps {
+  basket: Basket;
+}
+
+export function Header({ basket }: HeaderProps) {
+  const itemsInBasket = Object.values(basket).reduce(
+    (acc, quantity) => acc + quantity,
+    0
+  );
   return (
     <header>
       <nav>
         <ul>
           <li>
-            <a href="/">Home</a>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <a href="/checkout">Checkout</a>
+            <div className="bag">
+              <div>basket: {itemsInBasket}</div>
+              <Link to="/checkout">Checkout</Link>
+            </div>
           </li>
         </ul>
       </nav>

@@ -1,6 +1,7 @@
 header {
   background-color: var(--primary-color);
   height: 4rem;
+  color: var(--background-color);
 }
 
 header ul {
@@ -16,4 +17,9 @@ header a {
 
 header a:hover {
   background-color: var(--primary-color-action);
+}
+
+header .bag {
+  display: flex;
+  align-items: center;
 }
