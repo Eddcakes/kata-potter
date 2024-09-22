@@ -32,4 +32,24 @@ ul {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
+}
+
+button {
+  all: unset;
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: var(--primary-color-action);
+}
+
+button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
 }

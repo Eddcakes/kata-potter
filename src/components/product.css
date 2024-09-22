@@ -1,17 +1,20 @@
-.product-item button {
-  all: unset;
-  background-color: var(--primary-color);
-  color: var(--background-color);
-  padding: 0.5rem 1rem;
-  font-weight: 700;
+.product-item {
+  border: 1px solid var(--primary-color);
+  padding: 1rem;
 }
 
-.product-item button:hover {
-  cursor: pointer;
-  background-color: var(--primary-color-action);
+@media (max-width: 768px) {
+  .product-item {
+    width: 15rem;
+  }
+}
+
+.product-item input {
+  width: 5rem;
+  text-align: end;
 }
 
 .product-item .actions {
   display: flex;
-  gap: 1rem;
+  justify-content: space-between;
 }

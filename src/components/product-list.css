@@ -4,10 +4,14 @@
   gap: 1rem;
   max-width: 75rem;
   margin: 0 auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 1rem;
 }
 
 @media (max-width: 768px) {
   .products {
     grid-template-columns: repeat(1, auto);
+    justify-items: center;
   }
 }

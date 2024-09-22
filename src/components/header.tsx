@@ -18,7 +18,7 @@ export function Header({ basket }: HeaderProps) {
           </li>
           <li>
             <div className="bag">
-              <div>basket: {itemsInBasket}</div>
+              <div>items in basket: {itemsInBasket}</div>
               <Link to="/checkout">Checkout</Link>
             </div>
           </li>
