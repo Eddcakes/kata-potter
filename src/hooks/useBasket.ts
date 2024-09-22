@@ -1,5 +1,5 @@
 import { useOutletContext } from "react-router-dom";
-import { type BasketContext } from "../routes/layout";
+import { type BasketContext } from "../models";
 
 export function useBasket() {
   return useOutletContext<BasketContext>();

@@ -1,13 +1,10 @@
 import CheckoutList from "../components/checkout-list";
 import { useBasket } from "../hooks/useBasket";
-import { calculateTotal } from "../utils";
+import { calculateTotal, getTotalItemsInBasket } from "../utils";
 
 export default function Checkout() {
   const { basket } = useBasket();
-  const itemsInBasket = Object.values(basket).reduce(
-    (acc, quantity) => acc + quantity,
-    0
-  );
+  const itemsInBasket = getTotalItemsInBasket(basket);
   // could add handleAddToBasket functionality to add items before checking out
   const handleBuyNow = () => {
     if (itemsInBasket < 1) {

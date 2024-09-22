@@ -1,15 +1,16 @@
+import { BasketItem } from "../models";
+
 interface CheckoutItemProps {
-  sku: string;
-  quantity: number;
+  item: BasketItem;
 }
 
-export default function CheckoutItem({ sku, quantity }: CheckoutItemProps) {
+export default function CheckoutItem({ item }: CheckoutItemProps) {
+  const { quantity, name, price } = item;
   return (
     <div className="checkout-item">
-      <div>Product name: {sku}</div>
-      <div>Price</div>
+      <div>Product name: {name}</div>
+      <div>Price: {price}</div>
       <div>Quantity: {quantity}</div>
-      <div>Total</div>
     </div>
   );
 }

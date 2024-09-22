@@ -1,30 +1,91 @@
 import { describe, expect, it } from "vitest";
-import { Basket, calculateTotal } from "./utils";
-
-// 1: 1,
-// 2: 0.95,
-// 3: 0.9,
-// 4: 0.8,
-// 5: 0.75,
+import { calculateTotal } from "./utils";
+import { Basket } from "./models";
 
 const baskets = [
-  { basket: { book1: 1 }, expected: 8 },
-  { basket: { book2: 1, book3: 3 }, expected: 31.2 }, // 2*8 * 0.95 + 2*8
-  { basket: { book1: 2, book2: 2, book3: 2, book4: 1 }, expected: 47.2 }, // 4*8 * 0.8  3* 8 * 0.9
   {
-    basket: { book1: 5, book2: 5, book3: 6, book4: 5, book5: 3 },
+    basket: {
+      book1: { quantity: 1, price: 8, name: "Potter 1", sku: "book1" },
+    },
+    expected: 8,
+  },
+  {
+    basket: {
+      book2: { quantity: 1, price: 8, name: "Potter 2", sku: "book2" },
+      book3: { quantity: 3, price: 8, name: "Potter 3", sku: "book3" },
+    },
+    expected: 31.2,
+  }, // 2*8 * 0.95 + 2*8
+  {
+    basket: {
+      book1: { quantity: 2, price: 8, name: "Potter 1", sku: "book1" },
+      book2: { quantity: 2, price: 8, name: "Potter 2", sku: "book2" },
+      book3: { quantity: 2, price: 8, name: "Potter 3", sku: "book3" },
+      book4: { quantity: 1, price: 8, name: "Potter 4", sku: "book4" },
+    },
+    expected: 47.2,
+  }, // 4*8 * 0.8  3* 8 * 0.9
+  {
+    basket: {
+      book1: { quantity: 5, price: 8, name: "Potter 1", sku: "book1" },
+      book2: { quantity: 5, price: 8, name: "Potter 2", sku: "book2" },
+      book3: { quantity: 6, price: 8, name: "Potter 3", sku: "book3" },
+      book4: { quantity: 5, price: 8, name: "Potter 4", sku: "book4" },
+      book5: { quantity: 3, price: 8, name: "Potter 5", sku: "book5" },
+    },
     expected: 149.2,
   }, // 5*3 * 8 * 0.75 [90] 2*4 * 8 * 0.8 [51.2] + 8
   {
-    basket: { book1: 1, book2: 1, book3: 1, book4: 1, book5: 1 },
+    basket: {
+      book1: { quantity: 1, price: 8, name: "Potter 1", sku: "book1" },
+      book2: { quantity: 1, price: 8, name: "Potter 2", sku: "book2" },
+      book3: { quantity: 1, price: 8, name: "Potter 3", sku: "book3" },
+      book4: { quantity: 1, price: 8, name: "Potter 4", sku: "book4" },
+      book5: { quantity: 1, price: 8, name: "Potter 5", sku: "book5" },
+    },
     expected: 30,
   },
-  { basket: { book1: 0 }, expected: 0 },
-  { basket: { book1: 0, book4: 2 }, expected: 16 },
+  {
+    basket: {
+      book1: { quantity: 0, price: 8, name: "Potter 1", sku: "book1" },
+    },
+    expected: 0,
+  },
+  {
+    basket: {
+      book1: { quantity: 0, price: 8, name: "Potter 1", sku: "book1" },
+      book4: { quantity: 2, price: 8, name: "Potter 4", sku: "book4" },
+    },
+    expected: 16,
+  },
   // add more books
   {
-    basket: { book1: 1, book2: 1, book3: 1, book4: 1, book5: 1, book6: 1 },
+    basket: {
+      book1: { quantity: 1, price: 8, name: "Potter 1", sku: "book1" },
+      book2: { quantity: 1, price: 8, name: "Potter 2", sku: "book2" },
+      book3: { quantity: 1, price: 8, name: "Potter 3", sku: "book3" },
+      book4: { quantity: 1, price: 8, name: "Potter 4", sku: "book4" },
+      book5: { quantity: 1, price: 8, name: "Potter 5", sku: "book5" },
+      book6: { quantity: 1, price: 8, name: "Potter 6", sku: "book6" },
+    },
     expected: 36,
+  },
+  {
+    basket: {
+      book2: {
+        sku: "book2",
+        name: "Potter 2",
+        price: 8,
+        quantity: 4,
+      },
+      book1: {
+        sku: "book1",
+        name: "Potter 1",
+        price: 8,
+        quantity: 3,
+      },
+    },
+    expected: 53.6,
   },
 ];
 

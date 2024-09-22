@@ -1,4 +1,4 @@
-import { Basket } from "../routes/layout";
+import { type Basket } from "../models";
 import CheckoutItem from "./checkout-item";
 
 interface CheckoutListProps {
@@ -8,9 +8,9 @@ interface CheckoutListProps {
 export default function CheckoutList({ basket }: CheckoutListProps) {
   return (
     <div className="checkout-list">
-      {Object.entries(basket).map(([sku, quantity]) => (
-        <CheckoutItem key={sku} sku={sku} quantity={quantity} />
-      ))}
+      {Object.values(basket).map((item) => {
+        return <CheckoutItem key={item.sku} item={item} />;
+      })}
     </div>
   );
 }

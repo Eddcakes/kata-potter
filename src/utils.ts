@@ -1,6 +1,4 @@
-export interface Basket {
-  [bookSku: string]: number;
-}
+import { Basket } from "./models";
 
 // 8 EUR each
 const BOOK_PRICE = 8;
@@ -38,16 +36,26 @@ export const calculateTotal = (basket: Basket): number => {
   // do we have at least one of each book? -> count unique keys
   const uniqueBooks = basketKeys.length;
   // get lowest count of each book
-  const lowestCount = Math.min(...Object.values(basket));
+  const quantities = Object.values(basket).map((item) => item.quantity);
+  const lowestCount = Math.min(...quantities);
   // minus the lowest count of each book from the basket and calculate the offer price from # uniqueBooks
+  // found a rounding error, since we are using currency we should round to 2 decimal places
+  // multiplying by 100 and dividing by 100 handles this easily
   const total =
-    uniqueBooks * lowestCount * BOOK_PRICE * getOfferMultiplier(uniqueBooks);
+    Math.round(
+      uniqueBooks *
+        lowestCount *
+        BOOK_PRICE *
+        getOfferMultiplier(uniqueBooks) *
+        100
+    ) / 100;
+
   const nextBasket = {} as Basket; // whats left in the basket
   basketKeys.forEach((bookSku) => {
-    const leftInBasket = basket[bookSku] - lowestCount;
+    const leftInBasket = basket[bookSku].quantity - lowestCount;
     if (leftInBasket > 0) {
       // only add to new basket if there are any left
-      nextBasket[bookSku] = leftInBasket;
+      nextBasket[bookSku] = { ...basket[bookSku], quantity: leftInBasket };
     }
   });
   // do it again until we have no books left
@@ -56,4 +64,8 @@ export const calculateTotal = (basket: Basket): number => {
     return total + calculateTotal(nextBasket);
   }
   return total;
+};
+
+export const getTotalItemsInBasket = (basket: Basket): number => {
+  return Object.values(basket).reduce((acc, item) => acc + item.quantity, 0);
 };

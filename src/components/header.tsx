@@ -1,16 +1,14 @@
 import { Link } from "react-router-dom";
-import { type Basket } from "../routes/layout";
 import "./header.css";
+import { getTotalItemsInBasket } from "../utils";
+import { Basket } from "../models";
 
 interface HeaderProps {
   basket: Basket;
 }
 
 export function Header({ basket }: HeaderProps) {
-  const itemsInBasket = Object.values(basket).reduce(
-    (acc, quantity) => acc + quantity,
-    0
-  );
+  const itemsInBasket = getTotalItemsInBasket(basket);
   return (
     <header>
       <nav>

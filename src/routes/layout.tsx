@@ -1,25 +1,21 @@
 import { Outlet } from "react-router-dom";
 import { Header } from "../components/header";
 import { useState } from "react";
-
-export interface Basket {
-  [sku: string]: number;
-}
-
-export type BasketContext = {
-  basket: Basket;
-  handleAddToBasket: (sku: string, quantity: number) => void;
-};
+import type { Basket, BasketContext, ProductItem } from "../models";
 
 export default function Layout() {
   const [basket, setBasket] = useState({});
 
-  const handleAddToBasket = (sku: string, quantity: number) => {
+  const handleAddToBasket = (basketItem: ProductItem, quantity: number) => {
     setBasket((prev: Basket) => {
+      const sku = basketItem.sku;
       if (prev[sku]) {
-        return { ...prev, [sku]: (prev[sku] += quantity) };
+        return {
+          ...prev,
+          [sku]: { ...prev[sku], quantity: (prev[sku].quantity += quantity) },
+        };
       } else {
-        return { ...prev, [sku]: quantity };
+        return { ...prev, [sku]: { ...basketItem, quantity } };
       }
     });
   };

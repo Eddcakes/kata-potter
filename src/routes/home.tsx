@@ -12,13 +12,11 @@ export default function Home() {
     <div>
       <Banner />
       <ProductList>
-        {data.map(({ name, sku, price }) => {
+        {data.map((product) => {
           return (
             <Product
-              key={sku}
-              name={name}
-              sku={sku}
-              price={price}
+              key={product.sku}
+              product={product}
               addToBasket={handleAddToBasket}
             />
           );

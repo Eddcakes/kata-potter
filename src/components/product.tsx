@@ -1,22 +1,17 @@
 import { useState } from "react";
+import { ProductItem } from "../models";
 import "./product.css";
 
 interface ProductProps {
-  name: string;
-  sku: string;
-  price: number;
-  addToBasket: (sku: string, quantity: number) => void;
+  product: ProductItem;
+  addToBasket: (product: ProductItem, quantity: number) => void;
 }
 
-export default function Product({
-  name,
-  sku,
-  price,
-  addToBasket,
-}: ProductProps) {
+export default function Product({ product, addToBasket }: ProductProps) {
+  const { name, sku, price } = product;
   const [quantity, setQuantity] = useState(1);
   const handleClick = () => {
-    addToBasket(sku, quantity);
+    addToBasket(product, quantity);
     setQuantity(1);
   };
   return (
