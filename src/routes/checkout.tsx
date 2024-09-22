@@ -1,6 +1,6 @@
 import CheckoutList from "../components/checkout-list";
 import { useBasket } from "../hooks/useBasket";
-import { calculateTotal, getTotalItemsInBasket } from "../utils";
+import { calculateTotal, formatPrice, getTotalItemsInBasket } from "../utils";
 
 export default function Checkout() {
   const { basket } = useBasket();
@@ -24,7 +24,10 @@ export default function Checkout() {
           <div>No items in basket</div>
         )}
       </div>
-      <div>Total price: {itemsInBasket > 0 ? calculateTotal(basket) : 0}</div>
+      <div>
+        Total price:{" "}
+        {formatPrice(itemsInBasket > 0 ? calculateTotal(basket) : 0)}
+      </div>
       <div className="actions">
         <button disabled={itemsInBasket < 1} onClick={handleBuyNow}>
           Buy now

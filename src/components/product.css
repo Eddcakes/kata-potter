@@ -14,7 +14,8 @@
   text-align: end;
 }
 
-.product-item .actions {
+.product-item .actions,
+.product-item .details {
   display: flex;
   justify-content: space-between;
 }
