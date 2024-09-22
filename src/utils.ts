@@ -45,16 +45,17 @@ const addToBasket = (bookSku: string, quantity: number) => {
 };
 
 export const calculateTotal = (basket: Basket): number => {
-  // do we have at least one of each book?
-  // ^ count unique keys
-  const uniqueBooks = Object.keys(basket).length;
+  // we use keys from the basket more than once so lets store the value
+  const basketKeys = Object.keys(basket);
+  // do we have at least one of each book? -> count unique keys
+  const uniqueBooks = basketKeys.length;
   // get lowest count of each book
   const lowestCount = Math.min(...Object.values(basket));
   // minus the lowest count of each book from the basket and calculate the offer price from # uniqueBooks
   const total =
     uniqueBooks * lowestCount * BOOK_PRICE * getOfferMultiplier(uniqueBooks);
   const nextBasket = {} as Basket; // whats left in the basket
-  Object.keys(basket).forEach((bookSku) => {
+  basketKeys.forEach((bookSku) => {
     const leftInBasket = basket[bookSku] - lowestCount;
     if (leftInBasket > 0) {
       // only add to new basket if there are any left
