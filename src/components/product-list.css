@@ -1,0 +1,13 @@
+.products {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 1rem;
+  max-width: 75rem;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .products {
+    grid-template-columns: repeat(1, auto);
+  }
+}

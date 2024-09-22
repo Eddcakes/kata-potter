@@ -1,0 +1,17 @@
+.product-item button {
+  all: unset;
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+}
+
+.product-item button:hover {
+  cursor: pointer;
+  background-color: var(--primary-color-action);
+}
+
+.product-item .actions {
+  display: flex;
+  gap: 1rem;
+}

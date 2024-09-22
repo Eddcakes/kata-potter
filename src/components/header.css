@@ -1,0 +1,19 @@
+header {
+  background-color: var(--primary-color);
+  height: 4rem;
+}
+
+header ul {
+  display: flex;
+  justify-content: space-between;
+}
+
+header a {
+  color: var(--background-color);
+  text-decoration: none;
+  padding: 1rem;
+}
+
+header a:hover {
+  background-color: var(--primary-color-action);
+}
