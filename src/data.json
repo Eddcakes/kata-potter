@@ -1,0 +1,27 @@
+[
+  {
+    "sku": "book1",
+    "name": "Potter 1",
+    "price": 8
+  },
+  {
+    "sku": "book2",
+    "name": "Potter 2",
+    "price": 8
+  },
+  {
+    "sku": "book3",
+    "name": "Potter 3",
+    "price": 8
+  },
+  {
+    "sku": "book4",
+    "name": "Potter 4",
+    "price": 8
+  },
+  {
+    "sku": "book5",
+    "name": "Potter 5",
+    "price": 8
+  }
+]

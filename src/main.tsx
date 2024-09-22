@@ -5,6 +5,7 @@ import ErrorPage from "./error-page.tsx";
 import Layout from "./routes/layout.tsx";
 import Home from "./routes/home.tsx";
 import Checkout from "./routes/checkout.tsx";
+import { bookLoader } from "./loaders/bookLoader.ts";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -13,7 +14,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <Home /> },
+      { index: true, element: <Home />, loader: bookLoader },
       { path: "checkout", element: <Checkout /> },
     ],
   },
