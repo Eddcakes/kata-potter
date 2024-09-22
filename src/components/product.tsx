@@ -17,6 +17,9 @@ export default function Product({ product, addToBasket }: ProductProps) {
   };
   return (
     <div data-id={sku} className="product-item">
+      <div className="image">
+        <img src={`/assets/${sku}.webp`} height={128} width={128} alt={name} />
+      </div>
       <div className="details">
         <div>{name}</div>
         <div>{formatPrice(price)}</div>

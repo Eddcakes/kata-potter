@@ -19,3 +19,15 @@
   display: flex;
   justify-content: space-between;
 }
+
+.product-item .image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-item .image img {
+  color: var(--background-color);
+
+  background-color: var(--primary-color);
+}
