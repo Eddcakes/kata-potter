@@ -15,6 +15,17 @@ const baskets = [
     basket: { book1: 5, book2: 5, book3: 6, book4: 5, book5: 3 },
     expected: 149.2,
   }, // 5*3 * 8 * 0.75 [90] 2*4 * 8 * 0.8 [51.2] + 8
+  {
+    basket: { book1: 1, book2: 1, book3: 1, book4: 1, book5: 1 },
+    expected: 30,
+  },
+  { basket: { book1: 0 }, expected: 0 },
+  { basket: { book1: 0, book4: 2 }, expected: 16 },
+  // add more books
+  {
+    basket: { book1: 1, book2: 1, book3: 1, book4: 1, book5: 1, book6: 1 },
+    expected: 36,
+  },
 ];
 
 describe("calculateTotal", () => {
