@@ -15,6 +15,10 @@ export default function Product({
   addToBasket,
 }: ProductProps) {
   const [quantity, setQuantity] = useState(1);
+  const handleClick = () => {
+    addToBasket(sku, quantity);
+    setQuantity(1);
+  };
   return (
     <div data-id={sku} className="product-item">
       <div>{name}</div>
@@ -26,7 +30,7 @@ export default function Product({
           value={quantity}
           onChange={(evt) => setQuantity(Number(evt.target.value))}
         />
-        <button onClick={() => addToBasket(sku, quantity)}>Add to cart</button>
+        <button onClick={handleClick}>Add to cart</button>
       </div>
     </div>
   );

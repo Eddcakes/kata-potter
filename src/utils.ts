@@ -32,18 +32,6 @@ const getOfferMultiplier = (quantity: number): number => {
   return OFFER_MULTIPLIER[quantity];
 };
 
-// could initialise with all the books at 0 as we know this constraint
-const globalBasket: Basket = {};
-
-// could pass in the basket to avoid using a global, but we will refactor to react state if we create a ui anyway
-const addToBasket = (bookSku: string, quantity: number) => {
-  if (globalBasket[bookSku]) {
-    globalBasket[bookSku] += quantity;
-  } else {
-    globalBasket[bookSku] = quantity;
-  }
-};
-
 export const calculateTotal = (basket: Basket): number => {
   // we use keys from the basket more than once so lets store the value
   const basketKeys = Object.keys(basket);
