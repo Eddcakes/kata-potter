@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { calculateTotal, formatPrice } from "./utils";
+import {
+  BasicBasket,
+  basicCalculateTotal,
+  calculateTotal,
+  formatPrice,
+} from "./utils";
 import { Basket } from "./models";
 
 const baskets = [
@@ -110,6 +115,30 @@ describe("formatPrice", () => {
     it(`should format price for ${price}`, () => {
       const result = formatPrice(price as number);
       expect(result).toBe(expected);
+    });
+  });
+});
+
+const basicBaskets = [
+  { basket: { book1: 1 }, expected: 800 },
+  { basket: { book2: 1, book3: 3 }, expected: 3120 },
+  { basket: { book1: 2, book2: 2, book3: 2, book4: 1 }, expected: 4720 },
+  {
+    basket: { book1: 5, book2: 5, book3: 6, book4: 5, book5: 3 },
+    expected: 14920,
+  }, // 5*3 * 8 * 0.75 [90] 2*4 * 8 * 0.8 [51.2] + 8
+  {
+    basket: { book1: 2, book2: 2, book3: 2, book4: 1, book5: 1 },
+    expected: 5120,
+  },
+  { basket: { book1: 0 }, expected: 0 },
+  { basket: { book1: 0, book4: 2 }, expected: 1600 },
+];
+
+describe.only("basicCalculateTotal", () => {
+  basicBaskets.forEach(({ basket, expected }) => {
+    it(`calculates the total for ${JSON.stringify(basket)} correctly`, () => {
+      expect(basicCalculateTotal(basket as BasicBasket)).toBe(expected);
     });
   });
 });

@@ -58,6 +58,39 @@ export const calculateTotal = (basket: Basket): number => {
   }
   return total;
 };
+export interface BasicBasket {
+  [bookSku: string]: number;
+}
+
+// Going from 3 -> 4 books is 10% saving
+// Whereas every other jump is 5%
+
+export const basicCalculateTotal = (basket: BasicBasket): number => {
+  // we use keys from the basket more than once so lets store the value
+  const basketKeys = Object.keys(basket);
+  // do we have at least one of each book? -> count unique keys
+  const uniqueBooks = basketKeys.length;
+  // get lowest count of each book
+  const lowestCount = Math.min(...Object.values(basket));
+  // minus the lowest count of each book from the basket and calculate the offer price from # uniqueBooks
+  // to look at, 5 books is not necessarily the best offer, 4 books is 5% better
+  const total =
+    uniqueBooks * lowestCount * BOOK_PRICE * getOfferMultiplier(uniqueBooks);
+  const nextBasket = {} as BasicBasket; // whats left in the basket
+  basketKeys.forEach((bookSku) => {
+    const leftInBasket = basket[bookSku] - lowestCount;
+    if (leftInBasket > 0) {
+      // only add to new basket if there are any left
+      nextBasket[bookSku] = leftInBasket;
+    }
+  });
+  // do it again until we have no books left
+  // Object.keys() will create a new array, we could refactor to check a helper function to check object props to avoid this
+  if (Object.keys(nextBasket).length > 0) {
+    return total + basicCalculateTotal(nextBasket);
+  }
+  return total;
+};
 
 export const getTotalItemsInBasket = (basket: Basket): number => {
   return Object.values(basket).reduce((acc, item) => acc + item.quantity, 0);
