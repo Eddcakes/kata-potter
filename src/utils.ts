@@ -65,6 +65,12 @@ export interface BasicBasket {
 // Going from 3 -> 4 books is 10% saving
 // Whereas every other jump is 5%
 
+// instead of only calculating 1 total
+// I should see how many combinations can be used to get the best price
+// 5 books is not necessarily the best offer, 4 books is 5% better
+
+// bringing back basicCalculateTotal to read easier for now
+
 export const basicCalculateTotal = (basket: BasicBasket): number => {
   // we use keys from the basket more than once so lets store the value
   const basketKeys = Object.keys(basket);
@@ -90,6 +96,51 @@ export const basicCalculateTotal = (basket: BasicBasket): number => {
     return total + basicCalculateTotal(nextBasket);
   }
   return total;
+};
+
+interface Offer {
+  uniqueBooks: number;
+  discount: number;
+  timesApplied: number;
+}
+
+export const findOffers = (basket: BasicBasket, offers = []): Offer[] => {
+  // mutating offers
+  checkBasket(basket, offers);
+  return offers;
+};
+
+const checkBasket = (basket: BasicBasket, offers: Offer[]) => {
+  const basketKeys = Object.keys(basket);
+  const bookCounts = Object.values(basket);
+  const uniqueBooks = bookCounts.length;
+  const lowestCount = bookCounts[bookCounts.length - 1];
+  offers.push({
+    uniqueBooks,
+    discount: getOfferMultiplier(uniqueBooks),
+    timesApplied: lowestCount,
+  });
+  const nextBasket = {} as BasicBasket;
+  basketKeys.forEach((bookSku) => {
+    const leftInBasket = basket[bookSku] - lowestCount;
+    if (leftInBasket > 0) {
+      nextBasket[bookSku] = leftInBasket;
+    }
+  });
+  if (Object.keys(nextBasket).length > 0) {
+    checkBasket(nextBasket, offers);
+  }
+  return;
+};
+
+export const calculateOffers = (offers: Offer[]): number => {
+  // we see all the offers so we can manually override edge cases
+  return offers.reduce((total, offer) => {
+    return (
+      total +
+      offer.uniqueBooks * offer.timesApplied * BOOK_PRICE * offer.discount
+    );
+  }, 0);
 };
 
 export const getTotalItemsInBasket = (basket: Basket): number => {
