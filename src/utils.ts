@@ -31,19 +31,36 @@ const getOfferMultiplier = (quantity: number): number => {
 };
 
 export const calculateTotal = (basket: Basket): number => {
-  // we use keys from the basket more than once so lets store the value
+  const offers = findOffers(basket);
+  return calculateOffers(offers);
+};
+export interface BasicBasket {
+  [bookSku: string]: number;
+}
+
+interface Offer {
+  uniqueBooks: number;
+  discount: number;
+  timesApplied: number;
+}
+
+export const findOffers = (basket: Basket, offers = []): Offer[] => {
+  // mutating offers
+  checkBasket(basket, offers);
+  return offers;
+};
+
+const checkBasket = (basket: Basket, offers: Offer[]) => {
   const basketKeys = Object.keys(basket);
-  // do we have at least one of each book? -> count unique keys
-  const uniqueBooks = basketKeys.length;
-  // get lowest count of each book
-  const quantities = Object.values(basket).map((item) => item.quantity);
-  const lowestCount = Math.min(...quantities);
-  // minus the lowest count of each book from the basket and calculate the offer price from # uniqueBooks
-  // found a rounding error, since we are using currency we should round to 2 decimal places
-  // multiplying by 100 and dividing by 100 handles this easily
-  const total =
-    uniqueBooks * lowestCount * BOOK_PRICE * getOfferMultiplier(uniqueBooks);
-  const nextBasket = {} as Basket; // whats left in the basket
+  const bookCounts = Object.values(basket).map((item) => item.quantity);
+  const uniqueBooks = bookCounts.length; // || basketKeys.length;
+  const lowestCount = Math.min(...bookCounts); // bookCounts[bookCounts.length - 1];
+  offers.push({
+    uniqueBooks,
+    discount: getOfferMultiplier(uniqueBooks),
+    timesApplied: lowestCount,
+  });
+  const nextBasket = {} as Basket;
   basketKeys.forEach((bookSku) => {
     const leftInBasket = basket[bookSku].quantity - lowestCount;
     if (leftInBasket > 0) {
@@ -51,12 +68,39 @@ export const calculateTotal = (basket: Basket): number => {
       nextBasket[bookSku] = { ...basket[bookSku], quantity: leftInBasket };
     }
   });
-  // do it again until we have no books left
-  // Object.keys() will create a new array, we could refactor to check a helper function to check object props to avoid this
   if (Object.keys(nextBasket).length > 0) {
-    return total + calculateTotal(nextBasket);
+    checkBasket(nextBasket, offers);
   }
-  return total;
+  return;
+};
+
+export const calculateOffers = (offers: Offer[]): number => {
+  // we see all the offers so we can manually override edge cases
+  const offer3At = offers.findIndex((offer) => offer.uniqueBooks === 3);
+  const offer5At = offers.findIndex((offer) => offer.uniqueBooks === 5);
+  const offer4At = offers.findIndex((offer) => offer.uniqueBooks === 4);
+  if (offer3At !== -1 && offer5At !== -1) {
+    // we have both offers
+    offers[offer3At].timesApplied -= 1;
+    offers[offer5At].timesApplied -= 1;
+    // replace offer 5 and 3 with 2 * 4
+    if (offer4At !== -1) {
+      offers[offer4At].timesApplied += 2;
+    } else {
+      offers.push({
+        uniqueBooks: 4,
+        discount: 0.8,
+        timesApplied: 2,
+      });
+    }
+  }
+  const cleanOffers = offers.filter((offer) => offer.timesApplied > 0);
+  return cleanOffers.reduce((total, offer) => {
+    return (
+      total +
+      offer.uniqueBooks * offer.timesApplied * BOOK_PRICE * offer.discount
+    );
+  }, 0);
 };
 
 export const getTotalItemsInBasket = (basket: Basket): number => {

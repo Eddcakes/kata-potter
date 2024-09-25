@@ -13,3 +13,7 @@ Handle any combination in the basket and give as big discount as possible
 ### images
 
 player around with pixlr.com to create some ai images
+
+### options
+
+options are either calculate every set, or keep going with the gready algo and catch edge cases

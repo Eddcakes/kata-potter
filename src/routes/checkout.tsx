@@ -10,7 +10,7 @@ export default function Checkout() {
     if (itemsInBasket < 1) {
       console.log("Not enough items in the basket");
     }
-    alert(`Basket purchased for ${calculateTotal(basket)}`);
+    alert(`Basket purchased for ${formatPrice(calculateTotal(basket))}`);
     // mock resetting the basket by hard navigating to home page
     window.location.replace("/");
   };
