@@ -12,7 +12,7 @@ export default function Layout() {
       if (prev[sku]) {
         return {
           ...prev,
-          [sku]: { ...prev[sku], quantity: (prev[sku].quantity += quantity) },
+          [sku]: { ...prev[sku], quantity: prev[sku].quantity + quantity },
         };
       } else {
         return { ...prev, [sku]: { ...basketItem, quantity } };
